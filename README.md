@@ -16,3 +16,6 @@ ABP React
 > React com javascript, links com next, componentes com material ui;
 
 > Manter um ambiente escolar organizado tendo a notificação de quando algum trabalho ou prova estiver próximo, podendo ser alterado ans configurações de usuário;
+
+Exemplo de como vai ser o sistema:
+![image](https://user-images.githubusercontent.com/72043758/235807874-9a489c9b-3580-4397-9b3e-e7023b678977.png)
