@@ -3,7 +3,7 @@ ABP React
 
 - Organnize
 
-- Gustavo T Bett, Otávio Raupp júnior, Thiago Dimon, Vinicius Raccolto
+- Gustavo T Bett, Otávio Raupp júnior, Thiago Dimon Miranda, Vinicius Raccolto
 
 - Organize sua rotina semestral escolar;
 
