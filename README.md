@@ -13,6 +13,6 @@ ABP React
 
 > Acadêmicos universitários e estudantes de ensino médio;
 
-> React com javascript, componentes com material ui; - Mais alguma tecnologia?
+> React com javascript, next/links, componentes com material ui; - Mais alguma tecnologia?
 
 > Manter um ambiente escolar organizado tendo a notificação de quando algum trabalho ou prova estiver próximo, podendo ser alterado ans configurações de usuário; - Descrever pontos importantes e diferenciais do projeto
