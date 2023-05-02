@@ -13,6 +13,6 @@ ABP React
 
 > Acadêmicos universitários e estudantes de ensino médio;
 
-> React com javascript, componentes com material ui;
+> React com javascript, links com next, componentes com material ui;
 
 > Manter um ambiente escolar organizado tendo a notificação de quando algum trabalho ou prova estiver próximo, podendo ser alterado ans configurações de usuário;
