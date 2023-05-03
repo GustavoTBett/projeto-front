@@ -15,4 +15,4 @@ ABP React
 
 > React com javascript, next/links, componentes com material ui;
 
-> Manter um ambiente escolar organizado tendo a notificação de quando algum trabalho ou prova estiver próximo, podendo ser alterado nas configurações de usuário;
+> Manter um ambiente escolar organizado e personalizado para o aluno que poderá além de fazer suas anotações, anexar arquivos que o auxilie no semestre. O aluno também será notificado quando algum trabalho ou prova estiver próximo, podendo ser alterado nas configurações de usuário;
