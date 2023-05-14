@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -6,17 +5,14 @@ import Box from '@mui/material/Box';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems} from './MainList';
+import { useState } from 'react';
+import { Grid, Paper, Typography, Dialog, DialogTitle, DialogContent, Button } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -67,10 +63,45 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 function App() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  const months = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
+  ];
+
+  const [selectedDay, setSelectedDay] = useState(null);
+  const [currentMonthIndex, setCurrentMonthIndex] = useState(4);
+
+  const handleDayClick = (day) => {
+    setSelectedDay(day);
+  };
+
+  const handleCloseDialog = () => {
+    setSelectedDay(null);
+  };
+
+  const handlePrevMonth = () => {
+    if (currentMonthIndex === 0) return; // Bloqueia ir para o ano anterior
+    setCurrentMonthIndex(prevIndex => prevIndex - 1);
+  };
+
+  const handleNextMonth = () => {
+    if (currentMonthIndex === 11) return; // Bloqueia ir para o ano seguinte
+    setCurrentMonthIndex(prevIndex => prevIndex + 1);
+  };
+
+  const currentMonth = months[currentMonthIndex];
+
+  const getDaysInMonth = (year, month) => {
+    return new Date(year, month + 1, 0).getDate();
+  };
+
+  const daysInMonth = getDaysInMonth(2023, currentMonthIndex);
+
+  const daysOfMonth = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -103,11 +134,6 @@ function App() {
             >
               Calendário
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -143,35 +169,38 @@ function App() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                </Paper>
+              {/* Começa aqui a tela */}
+              <Button variant="contained" onClick={handlePrevMonth} disabled={currentMonthIndex === 0}>
+                Mês Anterior
+              </Button>
+              <Button variant="contained" onClick={handleNextMonth} disabled={currentMonthIndex === 11}>
+                Próximo Mês
+              </Button>
+              <Typography variant="h5" align="center" gutterBottom>
+                {currentMonth} 2023
+              </Typography>
+
+              <Grid container spacing={2}>
+                {daysOfMonth.map((day) => (
+                  <Grid item xs={3} key={day}>
+                    <Paper elevation={2} sx={{ padding: 2 }} onClick={() => handleDayClick(day)}>
+                      <Typography variant="h6" align="center">
+                        {day}
+                      </Typography>
+                    </Paper>
+                  </Grid>
+                ))}
               </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                </Paper>
-              </Grid>
-              {/* Recent Orders */}
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                </Paper>
-              </Grid>
+
+              <Dialog open={selectedDay !== null} onClose={handleCloseDialog}>
+                <DialogTitle>{selectedDay !== null ? `Dia ${selectedDay}` : ''}</DialogTitle>
+                <DialogContent>
+                  {/* Conteúdo do dialog */}
+                  <Typography variant="body1" align="center">
+                    Este é o conteúdo do dia {selectedDay}.
+                  </Typography>
+                </DialogContent>
+              </Dialog>
             </Grid>
           </Container>
         </Box>
