@@ -1,0 +1,42 @@
+.buttonsMonths {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tableCalender {
+    display: flex;
+    justify-content: center;
+    margin: 0 !important;
+}
+
+.diasSemana {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+
+.diasMes {
+  max-width: 1000px;
+}
+
+@media (max-width: 600px) {
+    .tableCalender {
+        flex-direction: column !important;
+        flex-wrap: nowrap !important;
+    }
+    .tableInside {
+        max-width: 100% !important;
+    }
+    .buttonsMonths {
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    .buttonsMonths > *{
+        width: 80% !important;
+    }
+}

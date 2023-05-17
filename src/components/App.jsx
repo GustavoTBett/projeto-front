@@ -1,8 +1,10 @@
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import '../css/App.css';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import MuiAppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -69,7 +71,7 @@ function App() {
   };
   const months = [
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
   ];
 
   const [selectedDay, setSelectedDay] = useState(null);
@@ -103,6 +105,8 @@ function App() {
 
   const daysOfMonth = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
+  const daysOfWeek = ["D", "S", "T", "Q", "Q", "S", "S"];
+
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
@@ -134,6 +138,7 @@ function App() {
             >
               Calendário
             </Typography>
+            <Avatar alt="Remy Sharp" src="/images/avatar.jpg"/>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -169,27 +174,38 @@ function App() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
+              <Grid className='buttonsMonths'>
+                <Button variant="contained" onClick={handlePrevMonth} disabled={currentMonthIndex === 0}>
+                  Mês Anterior
+                </Button>
+                <Typography variant="h5" align="center" gutterBottom>
+                  {currentMonth} 2023
+                </Typography>
+                <Button variant="contained" onClick={handleNextMonth} disabled={currentMonthIndex === 11}>
+                  Próximo Mês
+                </Button>
+              </Grid>
               {/* Começa aqui a tela */}
-              <Button variant="contained" onClick={handlePrevMonth} disabled={currentMonthIndex === 0}>
-                Mês Anterior
-              </Button>
-              <Button variant="contained" onClick={handleNextMonth} disabled={currentMonthIndex === 11}>
-                Próximo Mês
-              </Button>
-              <Typography variant="h5" align="center" gutterBottom>
-                {currentMonth} 2023
-              </Typography>
-
-              <Grid container spacing={2}>
-                {daysOfMonth.map((day) => (
-                  <Grid item xs={3} key={day}>
-                    <Paper elevation={2} sx={{ padding: 2 }} onClick={() => handleDayClick(day)}>
+              
+              <Grid container spacing={2} className='tableCalender'>
+                <Grid className='diasSemana'>
+                  {daysOfWeek.map((day) => (
+                    <Grid item key={day}>
                       <Typography variant="h6" align="center">
                         {day}
                       </Typography>
-                    </Paper>
-                  </Grid>
-                ))}
+                    </Grid>
+                  ))}
+                </Grid>
+                  {daysOfMonth.map((day) => (
+                    <Grid item xs={2} key={day} className='tableInside'>
+                      <Paper elevation={2} sx={{ padding: 2 }} onClick={() => handleDayClick(day)}>
+                        <Typography variant="h6" align="center">
+                          {day}
+                        </Typography>
+                      </Paper>
+                    </Grid>
+                  ))}
               </Grid>
 
               <Dialog open={selectedDay !== null} onClose={handleCloseDialog}>
