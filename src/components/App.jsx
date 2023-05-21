@@ -80,7 +80,7 @@ function App() {
   };
 
   const handleCloseDialog = () => {
-    setSelectedDay(null);
+      setSelectedDay(null);
   };
 
   const handlePrevMonth = () => {
