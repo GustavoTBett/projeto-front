@@ -1,75 +1,166 @@
-import { useState, useRef, useEffect, useCallback } from "react";
-import { Outlet, Link, NavLink } from "react-router-dom";
+import * as React from 'react';
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import MuiDrawer from '@mui/material/Drawer';
+import Box from '@mui/material/Box';
+import MuiAppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
+import Link from '@mui/material/Link';
+import MenuIcon from '@mui/icons-material/Menu';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { mainListItems } from '../layouts/MainList';
+import { Outlet } from 'react-router';
 
-export default function RootLayout() {
-  const [isScrollingHeader, setIsScrollingHeader] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const headerRef = useRef(null);
-  const lastPos = useRef(0);
+function Copyright(props) {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
-  const navLinkClassName =
-    "mr-4 mt-4 block text-base font-medium text-slate-700 hover:text-teal-600 md:mt-0 md:inline-block";
+const drawerWidth = 240;
 
-  function toggleMenu(event) {
-    event.preventDefault();
-    setIsMenuOpen(!isMenuOpen);
-  }
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(['width', 'margin'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
 
-  const handHeaderScroll = useCallback(() => {
-    const header = headerRef?.current;
-    const currPos = document.documentElement.scrollTop;
-    if (header) {
-      if (currPos > +lastPos.current) {
-        if (currPos > header.offsetHeight) {
-          setIsScrollingHeader(true);
-        }
-      } else {
-        setIsScrollingHeader(false);
-      }
-    }
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    '& .MuiDrawer-paper': {
+      position: 'relative',
+      whiteSpace: 'nowrap',
+      width: drawerWidth,
+      transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      boxSizing: 'border-box',
+      ...(!open && {
+        overflowX: 'hidden',
+        transition: theme.transitions.create('width', {
+          easing: theme.transitions.easing.sharp,
+          duration: theme.transitions.duration.leavingScreen,
+        }),
+        width: theme.spacing(7),
+        [theme.breakpoints.up('sm')]: {
+          width: theme.spacing(9),
+        },
+      }),
+    },
+  }),
+);
 
-    lastPos.current = currPos;
-  }, [headerRef, lastPos, setIsScrollingHeader]);
+// TODO remove, this demo shouldn't need to reset the theme.
+const defaultTheme = createTheme();
 
-  useEffect(() => {
-    window.addEventListener("scroll", handHeaderScroll, false);
-
-    return () => {
-      window.removeEventListener("scroll", handHeaderScroll, false);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+export default function Dashboard() {
+  const [open, setOpen] = React.useState(true);
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
 
   return (
-    <>
-          <nav
-            className={` ${
-              !isMenuOpen ? "hidden" : ""
-            }`}>
-            <NavLink to="/calendario" className={({ isActive }) => `${navLinkClassName} ${isActive ? "text-teal-600" : ""}`} end>
-              Calendário
-            </NavLink>
-            <NavLink
-              to="/tarefas-pendentes"
-              className={({ isActive }) => `${navLinkClassName} ${isActive ? "text-teal-600" : ""}`}>
-              Tarefas pendentes
-            </NavLink>
-            <NavLink
-              to="/notas"
-              className={({ isActive }) => `${navLinkClassName} ${isActive ? "text-teal-600" : ""}`}>
-              Notas
-            </NavLink>
-            <NavLink
-              to="/bloco-de-notas"
-              className={({ isActive }) => `${navLinkClassName} ${isActive ? "text-teal-600" : ""}`}>
-              Bloco de notas
-            </NavLink>
-          </nav>
-      <main className="mx-7 mt-28 flex-grow lg:mx-6">
-        <div className="mx-auto max-w-5xl">
-          <Outlet />
-        </div>
-      </main>
-    </>
+    <ThemeProvider theme={defaultTheme}>
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        <AppBar position="absolute" open={open}>
+          <Toolbar
+            sx={{
+              pr: '24px', // keep right padding when drawer closed
+            }}
+          >
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={toggleDrawer}
+              sx={{
+                marginRight: '36px',
+                ...(open && { display: 'none' }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              component="h1"
+              variant="h6"
+              color="inherit"
+              noWrap
+              sx={{ flexGrow: 1 }}
+            >
+              Organizze
+            </Typography>
+            <IconButton color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Drawer variant="permanent" open={open}>
+          <Toolbar
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              px: [1],
+            }}
+          >
+            <IconButton onClick={toggleDrawer}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </Toolbar>
+          <Divider />
+          <List component="nav">
+            {mainListItems}
+          </List>
+        </Drawer>
+        <Box
+          component="main"
+          sx={{
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'light'
+                ? theme.palette.grey[100]
+                : theme.palette.grey[900],
+            flexGrow: 1,
+            height: '100vh',
+            overflow: 'auto',
+          }}
+        >
+          <Toolbar />
+          <main className="mx-7 mt-28 flex-grow lg:mx-6">
+            <div className="mx-auto max-w-5xl">
+              <Outlet />
+            </div>
+          </main>
+        </Box>
+      </Box>
+    </ThemeProvider>
   );
 }

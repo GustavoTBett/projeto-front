@@ -6,13 +6,13 @@ import Login from "./routes/Login";
 
 const router = createBrowserRouter([
   {
+    path: "/login",
+    element: <Login />,
+  },
+  {
     path: "/",
     element: <RootLayout />,
     children: [
-      {
-        path: "/",
-        element: <Login />,
-      },
       {
         path: "/calendario",
         element: <Calender />,

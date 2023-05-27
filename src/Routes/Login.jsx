@@ -83,6 +83,9 @@ export default function Login() {
             />
             <Button
               type="submit"
+              onClick={() => {
+                window.location.href = "/calendario";
+              }}
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
