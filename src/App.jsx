@@ -1,8 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import RootLayout from "./layouts/RootLayout";
-import Calender from "./routes/Calender";
-import Login from "./routes/Login";
+import Calender from "./Routes/Calender";
+import Login from "./Routes/Login";
 
 const router = createBrowserRouter([
   {
