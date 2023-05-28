@@ -76,7 +76,7 @@ function Copyright(props) {
             }}
           >
             <Avatar sx={{ m: 2, bgcolor: 'transparent' }}>
-                <img src="./public/bookmark.png" alt="" />
+                <img src="./bookmark.png" alt="" />
             </Avatar>
             <Typography component="h1" variant="h5">
               Organnize

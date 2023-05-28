@@ -1,9 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import RootLayout from "./layouts/RootLayout";
+import Login from "./routes/Login";
+import SignUp from "./routes/SignUp";
 import Calender from "./Routes/Calender";
-import Login from "./Routes/Login";
-import SignUp from "./Routes/SignUp";
 
 const router = createBrowserRouter([
 
@@ -12,7 +12,7 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/SignUp",
+    path: "/cadastrar",
     element: <SignUp />
   },
   {
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       {
-        path: "/Calender",
+        path: "/calendario",
         element: <Calender />
       }
     ],
