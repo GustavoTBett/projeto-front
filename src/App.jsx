@@ -3,20 +3,26 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./layouts/RootLayout";
 import Calender from "./Routes/Calender";
 import Login from "./Routes/Login";
+import SignUp from "./Routes/SignUp";
 
 const router = createBrowserRouter([
+
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/SignUp",
+    element: <SignUp />
   },
   {
     path: "/",
     element: <RootLayout />,
     children: [
       {
-        path: "/calendario",
-        element: <Calender />,
-      },
+        path: "/Calender",
+        element: <Calender />
+      }
     ],
   },
 ]);
