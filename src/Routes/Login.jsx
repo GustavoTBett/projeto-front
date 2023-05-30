@@ -124,7 +124,7 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="/cadastrar" variant="body2">
+                <Link href="cadastrar" variant="body2">
                   {"Não possui uma matrícula? Cadastrar"}
                 </Link>
               </Grid>
