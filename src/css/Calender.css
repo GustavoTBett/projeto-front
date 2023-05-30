@@ -48,3 +48,18 @@
 #MuiGrid-item {
     cursor: pointer;
 }
+
+.css-binzgt{
+    margin-top: 0px !important;
+}
+
+.mainLogin {
+    height: 100vh;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.css-16g5rpk-MuiGrid-root {
+    justify-content: flex-start !important;
+}

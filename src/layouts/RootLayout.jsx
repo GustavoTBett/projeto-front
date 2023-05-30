@@ -9,13 +9,13 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import PersonIcon from '@mui/icons-material/Person';
 import { mainListItems } from '../layouts/MainList';
 import { Outlet } from 'react-router';
+import { Menu, MenuItem } from '@mui/material';
 
 function Copyright(props) {
   return (
@@ -80,9 +80,19 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const defaultTheme = createTheme();
 
 export default function Dashboard() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
+  };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const openUser = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+    console.log('teste');
   };
 
   return (
@@ -116,10 +126,25 @@ export default function Dashboard() {
             >
               Organizze
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
+            <IconButton color="inherit" id="basic-button"
+              aria-controls={openUser ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={openUser ? 'true' : undefined}
+              onClick={handleClick}>
+              <PersonIcon />
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={openUser}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleClose}>Logout</MenuItem>
+              </Menu>
             </IconButton>
           </Toolbar>
         </AppBar>

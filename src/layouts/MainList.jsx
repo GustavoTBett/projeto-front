@@ -10,7 +10,7 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 
 export const mainListItems = (
   <React.Fragment>
-    <NavLink to="/calendario">
+    <NavLink to="calendario">
       <ListItemButton>
         <ListItemIcon>
           <CalendarMonthIcon />
@@ -20,7 +20,7 @@ export const mainListItems = (
     </NavLink>
 
     <NavLink
-      to="/tarefas-pendentes">
+      to="tarefas-pendentes">
       <ListItemButton>
         <ListItemIcon>
           <AppsOutageIcon />
@@ -30,7 +30,7 @@ export const mainListItems = (
     </NavLink>
 
     <NavLink
-      to="/notas">
+      to="notas">
       <ListItemButton>
       <ListItemIcon>
         <NotesIcon />
@@ -40,7 +40,7 @@ export const mainListItems = (
     </NavLink>
 
     <NavLink
-      to="/bloco-de-notas">
+      to="bloco-de-notas">
       <ListItemButton>
       <ListItemIcon>
         <TextSnippetIcon />

@@ -7,7 +7,7 @@ import Cadastrar from "./Routes/Cadastrar";
 
 const router = createBrowserRouter([
   {
-    path: "/login",
+    path: "/",
     element: <Login />,
   },
   {
@@ -15,11 +15,11 @@ const router = createBrowserRouter([
     element: <Cadastrar />
   },
   {
-    path: "/",
+    path: "/app",
     element: <RootLayout />,
     children: [
       {
-        path: "/calendario",
+        path: "calendario",
         element: <Calender />
       },
     ],
