@@ -4,6 +4,7 @@ import RootLayout from "./layouts/RootLayout";
 import Calender from "./Routes/Calender.jsx";
 import Login from "./Routes/Login";
 import Cadastrar from "./Routes/Cadastrar";
+import EsqueceuSenha from "./Routes/EsqueceuSenha";
 
 const router = createBrowserRouter([
   {
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/cadastrar",
+    element: <Cadastrar />
+  },
+  {
+    path: "/esqueceuSenha",
     element: <Cadastrar />
   },
   {

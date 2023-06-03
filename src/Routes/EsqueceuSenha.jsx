@@ -107,17 +107,6 @@ export default function SignUp() {
                   autoComplete="email"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Senha"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
             </Grid>
             <Button
               type="submit"
@@ -125,12 +114,12 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Cadastrar
+              Enviar
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container>
               <Grid item>
-                <Link href="/" variant="body2">
-                  Já possui uma conta? Acessar
+                <Link href="cadastrar" variant="body2">
+                  {"Não possui uma conta? Cadastrar"}
                 </Link>
               </Grid>
             </Grid>

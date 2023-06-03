@@ -33,17 +33,17 @@ export default function SignIn() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // Validação de campos vazios
-    if (!data.get('matricula') && !data.get('password')) {
-      alert("Informe uma matrícula e senha");
+    if (!data.get('email') && !data.get('password')) {
+      alert("Informe seu e-mail e senha");
     }
-    else if (!data.get('matricula')) {
-      alert("Informe uma matrícula");
+    else if (!data.get('email')) {
+      alert("Informe seu e-mail");
     }
     else if (!data.get('password')) {
-      alert("Informe uma senha");
+      alert("Informe sua senha");
     }
     // Validação usuários cadastrados
-    else if (data.get('matricula') === database.username) {
+    else if (data.get('email') === database.username) {
       if (data.get('password') !== database.password) {
         // Invalid password
         alert("Senha incorreta");
@@ -91,10 +91,10 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="matricula"
-              label="Matrícula"
-              name="matricula"
-              autoComplete="matricula"
+              id="email"
+              label="E-mail"
+              name="email"
+              autoComplete="email"
               autoFocus
             />
             <TextField
@@ -109,7 +109,7 @@ export default function SignIn() {
             />
             <Grid container>
               <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link href="EsqueceuSenha" variant="body2">
                     Esqueceu sua senha?
                   </Link>
               </Grid>
@@ -125,7 +125,7 @@ export default function SignIn() {
             <Grid container>
               <Grid item>
                 <Link href="cadastrar" variant="body2">
-                  {"Não possui uma matrícula? Cadastrar"}
+                  {"Não possui uma conta? Cadastrar"}
                 </Link>
               </Grid>
             </Grid>
