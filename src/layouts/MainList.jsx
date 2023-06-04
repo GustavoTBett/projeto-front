@@ -8,6 +8,11 @@ import NotesIcon from '@mui/icons-material/Notes';
 import { NavLink } from 'react-router-dom';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 
+const currentDate = new Date();
+const day = currentDate.getDate().toString().padStart(2, '0');
+const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+const currentDayMonth = `${day}-${month}`;
+
 export const mainListItems = (
   <React.Fragment>
     <NavLink to="calendario">
@@ -20,7 +25,7 @@ export const mainListItems = (
     </NavLink>
 
     <NavLink
-      to="tarefas-pendentes">
+      to={`tarefas-pendentes/${currentDayMonth}`}>
       <ListItemButton>
         <ListItemIcon>
           <AppsOutageIcon />

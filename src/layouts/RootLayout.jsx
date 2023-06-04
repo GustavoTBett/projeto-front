@@ -92,7 +92,6 @@ export default function Dashboard() {
   };
   const handleClose = () => {
     setAnchorEl(null);
-    console.log('teste');
   };
 
   return (
@@ -132,7 +131,8 @@ export default function Dashboard() {
               aria-expanded={openUser ? 'true' : undefined}
               onClick={handleClick}>
               <PersonIcon />
-              <Menu
+            </IconButton>
+            <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}
                 open={openUser}
@@ -141,11 +141,17 @@ export default function Dashboard() {
                   'aria-labelledby': 'basic-button',
                 }}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem>
+                  <Link href="/app/perfil" underline="none" color="inherit">
+                    Perfil
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link href="/" underline="none" color="inherit">
+                    Sair
+                  </Link>
+                </MenuItem>
               </Menu>
-            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
