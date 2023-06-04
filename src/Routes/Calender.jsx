@@ -10,7 +10,8 @@ function Calender() {
   ]; 
 
   const [selectedDay, setSelectedDay] = useState(null);
-  const [currentMonthIndex, setCurrentMonthIndex] = useState(4);
+  const monthIndex = new Date().getMonth();
+  const [currentMonthIndex, setCurrentMonthIndex] = useState(monthIndex);
 
   const handleDayClick = (day) => {
     setSelectedDay(day);

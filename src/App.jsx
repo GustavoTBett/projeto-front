@@ -17,11 +17,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/cadastrar",
-    element: <Cadastrar />
+    element: <Cadastrar />,
   },
   {
     path: "/esqueceuSenha",
-    element: <Cadastrar />
+    element: <Cadastrar />,
   },
   {
     path: "/app",
@@ -29,23 +29,23 @@ const router = createBrowserRouter([
     children: [
       {
         path: "perfil",
-        element: <Perfil />
+        element: <Perfil />,
       },
       {
         path: "calendario",
-        element: <Calender />
+        element: <Calender />,
       },
       {
         path: "tarefas-pendentes/:date",
-        element: <Tarefas />
+        element: <Tarefas />,
       },
       {
         path: "notas",
-        element: <Notas />
+        element: <Notas />,
       },
       {
         path: "bloco-de-notas",
-        element: <BlocoDeNotas />
+        element: <BlocoDeNotas />,
       },
     ],
   },
