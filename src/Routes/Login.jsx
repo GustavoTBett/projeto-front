@@ -10,6 +10,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Navigate } from 'react-router-dom';
+import Dialog from '@mui/material/Dialog';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 function Copyright(props) {
     return (
@@ -28,25 +31,30 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
   const [login, setLogin] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  const [errorEmail, setErrorEmail] = React.useState(false);
+  const [errorPass, setErrorPass] = React.useState(false);
+  const [incorrectPass, setIncorrectPass] = React.useState(false);
+  const [findUser, setFindUser] = React.useState(false); 
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // Validação de campos vazios
     if (!data.get('email') && !data.get('password')) {
-      alert("Informe seu e-mail e senha");
+      setError(true);
     }
     else if (!data.get('email')) {
-      alert("Informe seu e-mail");
+      setErrorEmail(true);
     }
     else if (!data.get('password')) {
-      alert("Informe sua senha");
+      setErrorPass(true);
     }
     // Validação usuários cadastrados
     else if (data.get('email') === database.username) {
       if (data.get('password') !== database.password) {
         // Invalid password
-        alert("Senha incorreta");
+        setIncorrectPass(true);
       } 
       else {
         setLogin(true);
@@ -54,8 +62,7 @@ export default function SignIn() {
     } 
     else {
       // Username not found
-      alert("Usuário não encontrado");
-      console.log(user);
+      setFindUser(true);
     }
 };
   const user = "user1"
@@ -83,8 +90,59 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Organnize
           </Typography>
+          {/* Ir para a tela de login */}
           {login && (
             <Navigate to="app/calendario" replace={true} />
+          )}
+          {/* Error campos de login vazios */}
+          {error && (
+            <div>
+              <Dialog open={error} onClose={() => setError(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
+              <Stack  sx={{ width: '100%' }} spacing={2}>
+                <Alert onClose={() => {setError(false)}} severity="warning">E-mail e senha devem ser preenchidos</Alert>
+              </Stack>
+              </Dialog>
+            </div>
+          )}
+          {/* Erro e-mail vazio */}
+          {errorEmail && (
+            <div>
+              <Dialog open={errorEmail} onClose={() => setErrorEmail(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
+              <Stack  sx={{ width: '100%' }} spacing={2}>
+                <Alert onClose={() => {setErrorEmail(false)}} severity="warning">E-mail deve ser preenchido</Alert>
+              </Stack>
+              </Dialog>
+            </div>
+          )}
+          {/* Erro senha vazia */}
+          {errorPass && (
+            <div>
+              <Dialog open={errorPass} onClose={() => setErrorPass(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
+              <Stack  sx={{ width: '100%' }} spacing={2}>
+                <Alert onClose={() => {setErrorPass(false)}} severity="warning">Senha deve ser preenchida</Alert>
+              </Stack>
+              </Dialog>
+            </div>
+          )}
+          {/* Senha incorreta */}
+          {incorrectPass && (
+            <div>
+              <Dialog open={incorrectPass} onClose={() => setIncorrectPass(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
+              <Stack  sx={{ width: '100%' }} spacing={2}>
+                <Alert onClose={() => {setIncorrectPass(false)}} severity="error">Senha incorreta</Alert>
+              </Stack>
+              </Dialog>
+            </div>
+          )}
+          {/* Usuário não encontrado */}
+          {findUser && (
+            <div>
+              <Dialog open={findUser} onClose={() => setFindUser(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
+              <Stack  sx={{ width: '100%' }} spacing={2}>
+                <Alert onClose={() => {setFindUser(false)}} severity="error">Usuário incorreto</Alert>
+              </Stack>
+              </Dialog>
+            </div>
           )}
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -109,7 +167,7 @@ export default function SignIn() {
             />
             <Grid container>
               <Grid item xs>
-                  <Link href="EsqueceuSenha" variant="body2">
+                  <Link href="redefinir-senha" variant="body2">
                     Esqueceu sua senha?
                   </Link>
               </Grid>

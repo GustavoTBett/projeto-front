@@ -4,7 +4,7 @@ import RootLayout from "./layouts/RootLayout";
 import Calender from "./Routes/Calender.jsx";
 import Login from "./Routes/Login";
 import Cadastrar from "./Routes/Cadastrar";
-import EsqueceuSenha from "./Routes/EsqueceuSenha";
+import RedefinirSenha from "./Routes/RedefinirSenha";
 import Tarefas from "./Routes/Tarefas";
 import Perfil from "./Routes/Perfil";
 import Notas from "./Routes/Notas";
@@ -20,8 +20,8 @@ const router = createBrowserRouter([
     element: <Cadastrar />,
   },
   {
-    path: "/esqueceuSenha",
-    element: <Cadastrar />,
+    path: "/redefinir-senha",
+    element: <RedefinirSenha />,
   },
   {
     path: "/app",

@@ -3,15 +3,16 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Navigate } from 'react-router-dom';
+import Dialog from '@mui/material/Dialog';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 function Copyright(props) {
   return (
@@ -29,29 +30,37 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const [login, setLogin] = React.useState(false);
+  const [errorCadastro, setErrorCadastro] = React.useState(false);
+  const [errorEmail, setErrorEmail] = React.useState(false);
+  const [errorNome, setErrorNome] = React.useState(false);
+  const [errorSobrenome, setErrorSobrenome] = React.useState(false);
+  const [errorPass, setErrorPass] = React.useState(false);
+  const [cadastro, setCadastro] = React.useState(false);
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // Validação de campos vazios
-    if (!data.get('matricula') && !data.get('password') && !data.get('nome') && !data.get('sobrenome')) {
-        alert("O cadastro não pode ficar em branco");
+    if (!data.get('email') && !data.get('password') && !data.get('nome') && !data.get('sobrenome')) {
+        setErrorCadastro(true);
       }
       else if (!data.get('nome')) {
-        alert("O campo nome é obrigatório");
+        setErrorNome(true);
       }
       else if (!data.get('sobrenome')) {
-        alert("O campo sobrenome é obrigatório");
+        setErrorSobrenome(true);
       }
-      else if (!data.get('matricula')) {
-        alert("O campo matrícula é obrigatório");
+      else if (!data.get('email')) {
+        setErrorEmail(true);
       }
       else if (!data.get('password')) {
-        alert("O campo senha é obrigatório");
+        setErrorPass(true);
       }
       // Acessar página de login
       else {
-        console.log("entrou");
-        return<Link to="/Login"></Link>
+        setCadastro(true);
       } 
       
   };
@@ -74,6 +83,77 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Organnize
           </Typography>
+          {login && (
+            <Navigate to="/" replace={true} />
+          )}
+          {/* Erro cadastro vazio */}
+          {errorCadastro && (
+            <div>
+              <Dialog open={errorCadastro} onClose={() => setErrorCadastro(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
+              <Stack  sx={{ width: '100%' }} spacing={2}>
+                <Alert onClose={() => {setErrorCadastro(false)}} severity="warning">O cadastro não pode estar vazio</Alert>
+              </Stack>
+              </Dialog>
+            </div>
+          )}
+          {/* Erro nome vazio */}
+          {errorNome && (
+            <div>
+              <Dialog open={errorNome} onClose={() => setErrorNome(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
+              <Stack  sx={{ width: '100%' }} spacing={2}>
+                <Alert onClose={() => {setErrorNome(false)}} severity="warning">O nome deve ser preenchido</Alert>
+              </Stack>
+              </Dialog>
+            </div>
+          )}
+          {/* Erro sobrenome vazio */}
+          {errorSobrenome && (
+            <div>
+              <Dialog open={errorSobrenome} onClose={() => setErrorSobrenome(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
+              <Stack  sx={{ width: '100%' }} spacing={2}>
+                <Alert onClose={() => {setErrorSobrenome(false)}} severity="warning">O sobrenome deve ser preenchido</Alert>
+              </Stack>
+              </Dialog>
+            </div>
+          )}
+          {/* Erro e-mail vazio */}
+          {errorEmail && (
+            <div>
+              <Dialog open={errorEmail} onClose={() => setErrorEmail(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
+              <Stack  sx={{ width: '100%' }} spacing={2}>
+                <Alert onClose={() => {setErrorEmail(false)}} severity="warning">O e-mail deve ser preenchido</Alert>
+              </Stack>
+              </Dialog>
+            </div>
+          )}
+          {/* Erro senha vazia */}
+          {errorPass && (
+            <div>
+              <Dialog open={errorPass} onClose={() => setErrorPass(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
+              <Stack  sx={{ width: '100%' }} spacing={2}>
+                <Alert onClose={() => {setErrorPass(false)}} severity="warning">A senha deve ser preenchida</Alert>
+              </Stack>
+              </Dialog>
+            </div>
+          )}
+          {/* Cadastro sucesso */}
+          {cadastro && (
+            <div>
+              <Dialog open={cadastro} onClose={() => setLogin(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
+              <Stack  sx={{ width: '100%' }} spacing={2}>
+                <Alert
+                  action={
+                    <Button color="inherit" size="small" onClick={() => setLogin(true)}>
+                      Seguir
+                    </Button>
+                  }
+                >
+                Cadastro realizado com sucesso
+                </Alert>
+              </Stack>
+              </Dialog>
+            </div>
+          )}
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>

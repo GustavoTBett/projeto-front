@@ -8,10 +8,17 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { Navigate } from 'react-router-dom';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 function Copyright(props) {
   return (
@@ -28,31 +35,21 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignUp() {
+export default function ResetPass() {
+  const [mailMensage, setMailMensage] = React.useState(false);
+  const [logar, setLogar] = React.useState(false);
+  const [errorEmail, setErrorEmail] = React.useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // Validação de campos vazios
-    if (!data.get('matricula') && !data.get('password') && !data.get('nome') && !data.get('sobrenome')) {
-        alert("O cadastro não pode ficar em branco");
-      }
-      else if (!data.get('nome')) {
-        alert("O campo nome é obrigatório");
-      }
-      else if (!data.get('sobrenome')) {
-        alert("O campo sobrenome é obrigatório");
-      }
-      else if (!data.get('matricula')) {
-        alert("O campo matrícula é obrigatório");
-      }
-      else if (!data.get('password')) {
-        alert("O campo senha é obrigatório");
+    if (!data.get('email')) {
+      setErrorEmail(true);
       }
       // Acessar página de login
-      else {
-        console.log("entrou");
-        return<Link to="/Login"></Link>
-      } 
+    else {
+      setMailMensage(true);
+    } 
       
   };
 
@@ -74,29 +71,35 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Organnize
           </Typography>
+          {logar && (
+            <Navigate to="/" replace={true} />
+          )}
+          {errorEmail && (
+            <div>
+              <Dialog open={errorEmail} onClose={() => setErrorEmail(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
+              <Stack  sx={{ width: '100%' }} spacing={2}>
+                <Alert onClose={() => {setErrorEmail(false)}} severity="warning">E-mail deve ser preenchido</Alert>
+              </Stack>
+              </Dialog>
+            </div>
+          )}
+          {mailMensage && (
+            <Dialog open={mailMensage} onClose={() => setMailMensage(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
+            <DialogTitle id='dialog-title'>Nova senha enviada</DialogTitle>
+            <DialogContent>
+              <DialogContentText id='dialog-description'>
+                Confira sua caixa de entrada do e-mail informado, caso não encontre verifique sua caixa de spam 
+                ou entre em contato conosco pelo e-mail teste@teste.com.br
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setMailMensage(false)}>Cancelar</Button>
+              <Button autoFocus onClick={() => setLogar(true)}>Logar</Button>
+            </DialogActions>
+          </Dialog>
+          )}
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="nome"
-                  required
-                  fullWidth
-                  id="nome"
-                  label="Nome"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="sobrenome"
-                  label="Sobrenome"
-                  name="sobrenome"
-                  autoComplete="family-name"
-                />
-              </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
@@ -105,6 +108,12 @@ export default function SignUp() {
                   label="E-mail"
                   name="email"
                   autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Redefinir senha"s
                 />
               </Grid>
             </Grid>
@@ -116,10 +125,10 @@ export default function SignUp() {
             >
               Enviar
             </Button>
-            <Grid container>
+            <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="cadastrar" variant="body2">
-                  {"Não possui uma conta? Cadastrar"}
+                <Link href="/" variant="body2">
+                  Já possui uma conta? Acessar
                 </Link>
               </Grid>
             </Grid>
