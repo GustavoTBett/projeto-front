@@ -51,29 +51,26 @@ export default function SignIn() {
     else if (!data.get('password')) {
       setErrorPass(true);
     }
+    // Validação usuários cadastrados
+    else if (data.get('email') === database.username) {
+      if (data.get('password') !== database.password) {
+        // Invalid password
+        setIncorrectPass(true);
+      } 
+      else {
+        // Login Valido
+        setLogin(true);
+      }}
+    else {
+      // Username not found
+      setFindUser(true);
+}};
 
-    fetch("src/dados.json").then((response) => {
-      response.json().then((dados) => {
-        dados.usuarios.map((usuario) => {
-          // Validação usuários cadastrados
-        if (data.get('email') === usuario.email) {
-          if (data.get('password') !== usuario.password) {
-            // Invalid password
-            setIncorrectPass(true);
-          } 
-          else {
-            console.log('Invalid password');
-            setLogin(true);
-          }
-        } 
-        })
-      })
-    })
-    // else {
-    //   // Username not found
-    //     setFindUser(true);
-    //   }
-};
+const database =
+    {
+      username: "user1",
+      password: "pass1"
+    }
 
   return (
     
