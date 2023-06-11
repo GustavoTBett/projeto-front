@@ -40,6 +40,7 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+
     // Validação de campos vazios
     if (!data.get('email') && !data.get('password')) {
       setError(true);
@@ -50,27 +51,30 @@ export default function SignIn() {
     else if (!data.get('password')) {
       setErrorPass(true);
     }
-    // Validação usuários cadastrados
-    else if (data.get('email') === database.username) {
-      if (data.get('password') !== database.password) {
-        // Invalid password
-        setIncorrectPass(true);
-      } 
-      else {
-        setLogin(true);
-      }
-    } 
-    else {
-      // Username not found
-      setFindUser(true);
-    }
+
+    fetch("src/dados.json").then((response) => {
+      response.json().then((dados) => {
+        dados.usuarios.map((usuario) => {
+          // Validação usuários cadastrados
+        if (data.get('email') === usuario.email) {
+          if (data.get('password') !== usuario.password) {
+            // Invalid password
+            setIncorrectPass(true);
+          } 
+          else {
+            console.log('Invalid password');
+            setLogin(true);
+          }
+        } 
+        })
+      })
+    })
+    // else {
+    //   // Username not found
+    //     setFindUser(true);
+    //   }
 };
-  const user = "user1"
-  const database =
-    {
-      username: "user1",
-      password: "pass1"
-    }
+
   return (
     
     <ThemeProvider theme={defaultTheme}>
