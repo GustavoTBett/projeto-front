@@ -16,6 +16,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import { mainListItems } from '../layouts/MainList';
 import { Outlet } from 'react-router';
 import { Menu, MenuItem } from '@mui/material';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 function Copyright(props) {
   return (
@@ -76,11 +78,17 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 export default function Dashboard() {
   const [open, setOpen] = React.useState(false);
+  const [theme, setTheme] = React.useState(defaultTheme);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -93,9 +101,16 @@ export default function Dashboard() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleTheme = () => {
+    if (theme === defaultTheme) {
+      setTheme(darkTheme);
+    } else {
+      setTheme(defaultTheme);
+    }
+  };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
@@ -125,6 +140,9 @@ export default function Dashboard() {
             >
               Organizze
             </Typography>
+            <IconButton color="inherit" id="basic-button" onClick={handleTheme}>
+              {theme === defaultTheme ? <DarkModeIcon /> : <LightModeIcon />}
+            </IconButton>
             <IconButton color="inherit" id="basic-button"
               aria-controls={openUser ? 'basic-menu' : undefined}
               aria-haspopup="true"
