@@ -13,6 +13,7 @@ import { Navigate } from 'react-router-dom';
 import Dialog from '@mui/material/Dialog';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import { Paper } from '@mui/material';
 
 function Copyright(props) {
     return (
@@ -171,6 +172,13 @@ const database =
                   <Link href="redefinir-senha" variant="body2">
                     Esqueceu sua senha?
                   </Link>
+              </Grid>
+              <Grid item xs>
+                <Paper elevation={0} sx={{ textAlign: 'center' }}>
+                  <Typography variant="body2" color="text.secondary">
+                    Usuário: user1 / Senha: pass1
+                  </Typography>
+                </Paper>
               </Grid>
             </Grid>
             <Button
