@@ -3,13 +3,13 @@ import {
   Container,
   Grid,
   Paper,
-  TextField,
   TextareaAutosize,
 } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
+import '../css/BlocoDeNotas.css';
 
 function BlocoDeNotas() {
   const [grids, setGrids] = useState([1]);
@@ -19,7 +19,11 @@ function BlocoDeNotas() {
   };
 
   const removeGrid = (index) => {
-    setGrids((prevGrids) => prevGrids.filter((_, i) => i !== index));
+    setGrids((prevGrids) => {
+      const newGrids = [...prevGrids];
+      newGrids.splice(index, 1);
+      return newGrids;
+    });
   };
 
   return (
@@ -36,9 +40,9 @@ function BlocoDeNotas() {
           >
             <TextareaAutosize
               variant="outlined"
-              fullWidth
               style={{ width: "700vh", resize: "none", minHeight: "60px" }}
             />
+            {index}
             <Container
               style={{
                 display: "flex",
@@ -46,6 +50,7 @@ function BlocoDeNotas() {
                 justifyContent: "flex-end",
                 gap: "10px",
                 maxHeight: "64px",
+                alignItems: "center",
               }}
             >
               <Button variant="contained" color="primary" className="save">
@@ -53,13 +58,13 @@ function BlocoDeNotas() {
               </Button>
               {grids.length > 1 ? (
                 <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => removeGrid(index)}
-                  className="close"
-                >
-                  <CloseIcon />
-                </Button>
+                variant="contained"
+                color="primary"
+                onClick={() => removeGrid(index)}
+                className="close"
+              >
+                <CloseIcon />
+              </Button>
               ) : (
                 <Button
                   variant="contained"
