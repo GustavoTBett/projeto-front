@@ -1,5 +1,26 @@
-@media (min-width: 426px) {
+@media (max-width: 426px) {
     .save {
-        width: 50%;
+        min-width: 32px !important;
+        padding: 6px 8px !important;
     }
+    .close {
+        min-width: 32px !important;
+        padding: 6px 8px !important;
+    }
+    .Mui-disabled {
+        min-width: 32px !important;
+        padding: 6px 8px !important;
+    }
+}
+
+.save {
+    height: 48px;
+}
+
+.close {
+    height: 48px;
+}
+
+.Mui-disabled {
+    height: 48px;
 }
