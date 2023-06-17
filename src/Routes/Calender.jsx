@@ -40,8 +40,9 @@ function Calender() {
   const daysInMonth = getDaysInMonth(2023, currentMonthIndex);
 
   const daysOfMonth = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+  const teste = Array.from(Array(35).keys());
 
-  const daysOfWeek = ["D", "S", "T", "Q", "Q", "S", "S"];
+  const daysOfWeek = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
 
   return (
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
@@ -62,15 +63,15 @@ function Calender() {
           <Grid container spacing={2} className='tableCalender'>
             <Grid className='diasSemana'>
               {daysOfWeek.map((day) => (
-                <Grid item key={day}>
-                  <Typography variant="h6" align="center">
+                <Grid item key={day} style={{ width: 1150 }}>
+                  <Typography variant="h6" align="center" style={{ width: "100%", paddingLeft: 10 }}>
                     {day}
                   </Typography>
                 </Grid>
               ))}
             </Grid>
-              {daysOfMonth.map((day) => (
-                <Grid item xs={2} key={day} className='tableInside'>
+              {teste.map((day) => (
+                <Grid item xs={1.7} key={day} className='tableInside'>
                   <Paper elevation={2} sx={{ padding: 2 }} onClick={() => handleDayClick(day)}>
                     <Typography variant="h6" align="center">
                       {day}

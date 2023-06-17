@@ -1,15 +1,9 @@
-import {
-  Button,
-  Container,
-  Grid,
-  Paper,
-  TextareaAutosize,
-} from "@mui/material";
+import { Button, Container, Grid, Paper, TextareaAutosize } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
-import '../css/BlocoDeNotas.css';
+import "../css/BlocoDeNotas.css";
 
 function BlocoDeNotas() {
   const [grids, setGrids] = useState([1]);
@@ -42,7 +36,6 @@ function BlocoDeNotas() {
               variant="outlined"
               style={{ width: "700vh", resize: "none", minHeight: "60px" }}
             />
-            {index}
             <Container
               style={{
                 display: "flex",
@@ -56,15 +49,15 @@ function BlocoDeNotas() {
               <Button variant="contained" color="primary" className="save">
                 <SaveIcon />
               </Button>
-              {grids.length > 1 ? (
+              {index === grids.length - 1 && grids.length > 1 ? ( // Only show the "Close" button for the last item and if there is more than one item
                 <Button
-                variant="contained"
-                color="primary"
-                onClick={() => removeGrid(index)}
-                className="close"
-              >
-                <CloseIcon />
-              </Button>
+                  variant="contained"
+                  color="primary"
+                  onClick={() => removeGrid(index)}
+                  className="close"
+                >
+                  <CloseIcon />
+                </Button>
               ) : (
                 <Button
                   variant="contained"
@@ -80,7 +73,12 @@ function BlocoDeNotas() {
         </Grid>
       ))}
       <Grid container justifyContent="center">
-        <Button variant="contained" color="primary" onClick={addGrid} style={{ height: "48px", width: "86px"}}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={addGrid}
+          style={{ height: "48px", width: "86px" }}
+        >
           <AddIcon />
         </Button>
       </Grid>
