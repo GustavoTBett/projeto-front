@@ -35,13 +35,14 @@ export default function SignIn() {
   const [error, setError] = React.useState(false);
   const [errorEmail, setErrorEmail] = React.useState(false);
   const [errorPass, setErrorPass] = React.useState(false);
-  const [incorrectPass, setIncorrectPass] = React.useState(false);
-  const [findUser, setFindUser] = React.useState(false); 
+  const [findUser, setFindUser] = React.useState(false);
+  const [database, setDatabase] = React.useState([]);
+  fetch("src/dados.json").then((response) => response.json()).then((json) => setDatabase(json));
+  let foundUser = false;
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
     // Validação de campos vazios
     if (!data.get('email') && !data.get('password')) {
       setError(true);
@@ -53,25 +54,21 @@ export default function SignIn() {
       setErrorPass(true);
     }
     // Validação usuários cadastrados
-    else if (data.get('email') === database.username) {
-      if (data.get('password') !== database.password) {
-        // Invalid password
-        setIncorrectPass(true);
-      } 
-      else {
-        // Login Valido
-        setLogin(true);
-      }}
-    else {
-      // Username not found
-      setFindUser(true);
-}};
+    database.forEach(usuario => {
+      if (usuario.username === data.get('email') && usuario.password === data.get('password')) {
+        foundUser = true;
+      }});
 
-const database =
-    {
-      username: "user1",
-      password: "pass1"
+    if (foundUser) {
+      setLogin(true);
     }
+    else {
+      if (!data.get('email') && !data.get('password')) {
+        return;
+      }
+      else {
+      setFindUser(true);}
+    }}
 
   return (
     
@@ -126,22 +123,12 @@ const database =
               </Dialog>
             </div>
           )}
-          {/* Senha incorreta */}
-          {incorrectPass && (
-            <div>
-              <Dialog open={incorrectPass} onClose={() => setIncorrectPass(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
-              <Stack  sx={{ width: '100%' }} spacing={2}>
-                <Alert onClose={() => {setIncorrectPass(false)}} severity="error">Senha incorreta</Alert>
-              </Stack>
-              </Dialog>
-            </div>
-          )}
-          {/* Usuário não encontrado */}
+          {/* Usuário não encontrado ou senha incorreto */}
           {findUser && (
             <div>
               <Dialog open={findUser} onClose={() => setFindUser(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
               <Stack  sx={{ width: '100%' }} spacing={2}>
-                <Alert onClose={() => {setFindUser(false)}} severity="error">Usuário incorreto</Alert>
+                <Alert onClose={() => {setFindUser(false)}} severity="error">Usuário ou senha incorreto</Alert>
               </Stack>
               </Dialog>
             </div>
@@ -169,7 +156,7 @@ const database =
             />
             <Grid container>
               <Grid item xs>
-                  <Link href="redefinir-senha" variant="body2">
+                  <Link href="redefinir-senha" variant="body2" underline="hover">
                     Esqueceu sua senha?
                   </Link>
               </Grid>
@@ -191,7 +178,7 @@ const database =
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="cadastrar" variant="body2">
+                <Link href="cadastrar" variant="body2" underline="hover">
                   {"Não possui uma conta? Cadastrar"}
                 </Link>
               </Grid>

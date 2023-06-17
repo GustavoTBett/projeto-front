@@ -37,8 +37,9 @@ export default function SignUp() {
   const [errorSobrenome, setErrorSobrenome] = React.useState(false);
   const [errorPass, setErrorPass] = React.useState(false);
   const [cadastro, setCadastro] = React.useState(false);
-
-
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -185,6 +186,7 @@ export default function SignUp() {
                   label="E-mail"
                   name="email"
                   autoComplete="email"
+                  onChange={(event) => {setUsername(event.target.value)}}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -196,6 +198,7 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={(event) => {setPassword(event.target.value)}}
                 />
               </Grid>
             </Grid>
@@ -209,7 +212,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/" variant="body2">
+                <Link href="/" variant="body2" underline="hover">
                   Já possui uma conta? Acessar
                 </Link>
               </Grid>

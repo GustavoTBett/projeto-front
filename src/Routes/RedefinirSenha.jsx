@@ -127,7 +127,7 @@ export default function ResetPass() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/" variant="body2">
+                <Link href="/" variant="body2" underline="hover">
                   Já possui uma conta? Acessar
                 </Link>
               </Grid>

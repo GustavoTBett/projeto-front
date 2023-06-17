@@ -20,7 +20,7 @@ export const mainListItems = (
         <ListItemIcon>
           <CalendarMonthIcon />
         </ListItemIcon>
-        <ListItemText primary="Calendário" />
+        <ListItemText primary="Calendário"/>
       </ListItemButton>
     </NavLink>
 
