@@ -36,9 +36,16 @@ export default function SignIn() {
   const [errorEmail, setErrorEmail] = React.useState(false);
   const [errorPass, setErrorPass] = React.useState(false);
   const [findUser, setFindUser] = React.useState(false);
-  const [database, setDatabase] = React.useState([]);
-  fetch("src/dados.json").then((response) => response.json()).then((json) => setDatabase(json));
   let foundUser = false;
+  const database = [{
+    "username": "user1",
+    "password": "pass1"
+  },
+  {
+    "username": "user2",
+    "password": "pass2"
+  }];
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
