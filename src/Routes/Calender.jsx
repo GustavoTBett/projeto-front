@@ -124,6 +124,7 @@ function Calender() {
                     onClick={() =>
                       handleDayClick(currentDay - firstDayOfMonth + 1)
                     }
+                    style={{ backgroundColor: "#e0e0e0" }}
                   >
                     <Typography variant="h6" align="center">
                       {currentDay - firstDayOfMonth + 1}
