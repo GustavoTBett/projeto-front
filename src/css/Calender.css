@@ -1,9 +1,10 @@
 .buttonsMonths {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     width: 100%;
     gap: 10px;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .tableCalender {

@@ -10,6 +10,8 @@ import {
   DialogContent,
   Button,
 } from "@mui/material";
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 function Calender() {
   const months = [
@@ -69,6 +71,7 @@ function Calender() {
   } else {
     teste = Array.from(Array(35).keys());
   }
+  
 
   const daysOfWeek = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
 
@@ -81,6 +84,7 @@ function Calender() {
             onClick={handlePrevMonth}
             disabled={currentMonthIndex === 0}
           >
+            <ArrowBackIosNewIcon />
             Mês Anterior
           </Button>
           <Typography variant="h5" align="center" gutterBottom>
@@ -92,6 +96,7 @@ function Calender() {
             disabled={currentMonthIndex === 11}
           >
             Próximo Mês
+            <ArrowForwardIosIcon />
           </Button>
         </Grid>
         {/* Começa aqui a tela */}
@@ -119,12 +124,11 @@ function Calender() {
               return (
                 <Grid item xs={1.7} key={day} className="tableInside">
                   <Paper
-                    elevation={2}
+                    elevation={12}
                     sx={{ padding: 2 }}
                     onClick={() =>
                       handleDayClick(currentDay - firstDayOfMonth + 1)
                     }
-                    style={{ backgroundColor: "#e0e0e0" }}
                   >
                     <Typography variant="h6" align="center">
                       {currentDay - firstDayOfMonth + 1}

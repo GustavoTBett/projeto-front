@@ -49,7 +49,7 @@ function BlocoDeNotas() {
               <Button variant="contained" color="primary" className="save">
                 <SaveIcon />
               </Button>
-              {index === grids.length - 1 && grids.length > 1 ? ( // Only show the "Close" button for the last item and if there is more than one item
+              {index === grids.length - 1 && grids.length > 1 ? ( 
                 <Button
                   variant="contained"
                   color="primary"
@@ -63,7 +63,7 @@ function BlocoDeNotas() {
                   variant="contained"
                   color="primary"
                   disabled
-                  style={{ pointerEvents: "none", backgroundColor: "#bbbbbb" }}
+                  style={{  backgroundColor: "#bbbbbb", cursor: "not-allowed" }}
                 >
                   <CloseIcon />
                 </Button>
