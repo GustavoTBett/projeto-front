@@ -1,4 +1,5 @@
-import { useState, useCallback } from "react";
+import * as React from 'react';
+import { useCallback } from "react";
 import {
   Box,
   Button,
@@ -9,32 +10,126 @@ import {
   Divider,
   TextField,
   Unstable_Grid2 as Grid,
+  Dialog,
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import InputMask from "react-input-mask";
+import Alert from '@mui/material/Alert';
 
 const states = [
   {
-    value: "parana",
+    value: "AC",
+    label: "Acre",
+  },
+  {
+    value: "AL",
+    label: "Alagoas",
+  },
+  {
+    value: "AP",
+    label: "Amapá",
+  },
+  {
+    value: "AM",
+    label: "Amazonas",
+  },
+  {
+    value: "BA",
+    label: "Bahia",
+  },
+  {
+    value: "CE",
+    label: "Ceará",
+  },
+  {
+    value: "DF",
+    label: "Distrito Federal",
+  },
+  {
+    value: "ES",
+    label: "Espírito Santo",
+  },
+  {
+    value: "GO",
+    label: "Goiás",
+  },
+  {
+    value: "MA",
+    label: "Maranhão",
+  },
+  {
+    value: "MT",
+    label: "Mato Grosso",
+  },
+  {
+    value: "MS",
+    label: "Mato Grosso Do Sul",
+  },
+  {
+    value: "MG",
+    label: "Minas Gerais",
+  },
+  {
+    value: "PA",
+    label: "Pará",
+  },
+  {
+    value: "PB",
+    label: "Paraíba",
+  },
+  {
+    value: "PR",
     label: "Paraná",
   },
   {
-    value: "rioGrandeDoSul",
+    value: "PE",
+    label: "Pernambuco",
+  },
+  {
+    value: "PI",
+    label: "Piauí",
+  },
+  {
+    value: "RJ",
+    label: "Rio De Janeiro",
+  },
+  {
+    value: "RN",
+    label: "Rio Grande Do Norte",
+  },
+  {
+    value: "RS",
     label: "Rio Grande do Sul",
   },
   {
-    value: "santaCatarina",
+    value: "RO",
+    label: "Rondônia",
+  },
+  {
+    value: "RR",
+    label: "Roraima",
+  },
+  {
+    value: "SC",
     label: "Santa Catarina",
   },
   {
-    value: "saoPaulo",
+    value: "SP",
     label: "São Paulo",
   },
+  {
+    value: "SE",
+    label: "Sergipe",
+  },
+  {
+    value: "TO",
+    label: "Tocantins",
+  }
 ];
 
 function Perfil() {
-  const [values, setValues] = useState({
+  const [values, setValues] = React.useState({
     firstName: "Thiago",
     lastName: "Dimon Miranda",
     email: "thiago.298721@alunosatc.edu.br",
@@ -52,12 +147,8 @@ function Perfil() {
     }));
   }, []);
 
-  const handleSubmit = (event) => {
-    setValues((prevState) => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }));
-  };
+  const [infoSave, setInfoSave] = React.useState(false);
+
   return (
     <Card>
       <Grid container spacing={2} sx={{ mx: 2 }}>
@@ -105,6 +196,15 @@ function Perfil() {
                 value={values.email}
               />
             </Grid>
+            {infoSave && (
+            <div>
+              <Dialog open={infoSave} onClose={() => setInfoSave(false)} aria-labelledby='dialog-title' aria-describedby='dialog-description'>
+              <Stack  sx={{ width: '100%' }} spacing={2}>
+                <Alert onClose={() => {setInfoSave(false)}} severity="success">Informações salvas com sucesso!</Alert>
+              </Stack>
+              </Dialog>
+            </div>
+            )}
             <Grid xs={12} md={6}>
               <InputMask
                 fullWidth
@@ -138,7 +238,7 @@ function Perfil() {
                 value={values.state}
               >
                 {states.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <option key={option.value}>
                     {option.label}
                   </option>
                 ))}
@@ -158,7 +258,7 @@ function Perfil() {
       </CardContent>
       <Divider />
       <CardActions sx={{ justifyContent: "center", my: 5 }}>
-        <Button variant="contained" onClick={handleSubmit}>
+        <Button variant="contained" onClick={() => setInfoSave(true)}>
           Salvar Informações
         </Button>
       </CardActions>

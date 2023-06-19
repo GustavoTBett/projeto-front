@@ -15,18 +15,18 @@ const currentDayMonth = `${day}-${month}`;
 
 export const mainListItems = (
   <React.Fragment>
-    <NavLink to="calendario">
-      <ListItemButton>
+    <NavLink to="calendario" style={{textDecorationLine: 'none', color: 'rgb(25,118,210)'}}>
+      <ListItemButton sx={{'&:hover': {backgroundColor: 'rgb(189,190,189)'}}}>
         <ListItemIcon>
           <CalendarMonthIcon />
         </ListItemIcon>
-        <ListItemText primary="Calendário"/>
+        <ListItemText primary="Calendário" />
       </ListItemButton>
     </NavLink>
 
     <NavLink
-      to={`tarefas-pendentes/${currentDayMonth}`}>
-      <ListItemButton>
+      to={`tarefas-pendentes/${currentDayMonth}`} style={{textDecorationLine: 'none', color: 'rgb(25,118,210)'}}>
+      <ListItemButton sx={{'&:hover': {backgroundColor: 'rgb(189,190,189)'}}}>
         <ListItemIcon>
           <AppsOutageIcon />
         </ListItemIcon>
@@ -35,8 +35,8 @@ export const mainListItems = (
     </NavLink>
 
     <NavLink
-      to="notas">
-      <ListItemButton>
+      to="notas" style={{textDecorationLine: 'none', color: 'rgb(25,118,210)'}}>
+      <ListItemButton sx={{'&:hover': {backgroundColor: 'rgb(189,190,189)'}}}>
       <ListItemIcon>
         <NotesIcon />
       </ListItemIcon>
@@ -45,8 +45,8 @@ export const mainListItems = (
     </NavLink>
 
     <NavLink
-      to="bloco-de-notas">
-      <ListItemButton>
+      to="bloco-de-notas" style={{textDecorationLine: 'none', color: 'rgb(25,118,210)'}}>
+      <ListItemButton sx={{'&:hover': {backgroundColor: 'rgb(189,190,189)'}}}>
       <ListItemIcon>
         <TextSnippetIcon />
       </ListItemIcon>
