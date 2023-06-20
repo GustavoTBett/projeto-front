@@ -1,13 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Typography, IconButton, Grid, Paper } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const Tarefas = () => {
+  const [nomeDiaSemana, setNomeDiaSemana] = useState('');
+  const [outrosDiasSemana, setOutrosDiasSemana] = useState([]);
   const { date } = useParams();
 
   const [day, month] = date.split("-");
+
+  const daysOfWeek = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+
+  const obterDiaSemana = () => {
+    const partesData = date.split('-');
+    const dia = partesData[0];
+    const mes = partesData[1] - 1;
+
+    const data = new Date();
+    data.setDate(dia);
+    data.setMonth(mes);
+
+    const nomeDia = obterNomeDiaSemana(data.getDay());
+    const outrosDias = obterOutrosDiasSemana(data);
+
+    setNomeDiaSemana(nomeDia);
+    setOutrosDiasSemana(outrosDias);
+  };
+  
+  const obterNomeDiaSemana = (diaSemana) => {
+    return daysOfWeek[diaSemana];
+  };
+
+  const padEsquerda = (valor, tamanho) => {
+    let valorString = valor.toString();
+    while (valorString.length < tamanho) {
+      valorString = '0' + valorString;
+    }
+    return valorString;
+  };
+
+  const obterOutrosDiasSemana = (data) => {
+    const diaSemanaAtual = data.getDay();
+    const diasSemana = [];
+  
+    const formatarData = (data) => {
+      const dia = String(data.getDate()).padStart(2, '0');
+      const mes = String(data.getMonth() + 1).padStart(2, '0');
+      return `${dia}/${mes}`;
+    };
+  
+    for (let i = 0; i < 7; i++) {
+      const dia = new Date(data.getTime());
+      dia.setDate(data.getDate() + i - diaSemanaAtual);
+      diasSemana.push(formatarData(dia));
+    }
+  
+    return diasSemana;
+  };
 
   const handlePreviousDay = () => {
     const currentDate = new Date(2023, month - 1, day);
@@ -33,13 +84,9 @@ const Tarefas = () => {
     window.location.href = `/app/tarefas-pendentes/${newDate}`;
   };
 
-  const daysOfWeek = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
-
-  const getDateOfWeek = (date) => {
-    const parts = date.split("-");
-    const day = new Date(parts[2], parts[1], parts[0]).getDay();
-    return daysOfWeek[day];
-  };
+  useEffect(() => {
+    obterDiaSemana();
+  }, []);
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
@@ -56,79 +103,21 @@ const Tarefas = () => {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography variant="h4" gutterBottom>
-              Calendário semanal
+              Calendário semanal - {nomeDiaSemana}
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={1.7}>
-            <Paper>
-              <Grid>
-                <Typography variant="h6" gutterBottom>
-                  {daysOfWeek[0]}
-                </Typography>
-              </Grid>
-              {/* Place your content or activities for Sunday here */}
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={1.7}>
-            <Paper>
-              <Grid>
-                <Typography variant="h6" gutterBottom>
-                {daysOfWeek[1]}
-                </Typography>
-              </Grid>
-              {/* Place your content or activities for Monday here */}
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={1.7}>
-            <Paper>
-              <Grid>
-                <Typography variant="h6" gutterBottom>
-                {daysOfWeek[2]}
-                </Typography>
-              </Grid>
-              {/* Place your content or activities for Tuesday here */}
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={1.7}>
-            <Paper>
-              <Grid>
-                <Typography variant="h6" gutterBottom>
-                {daysOfWeek[3]}
-                </Typography>
-              </Grid>
-              {/* Place your content or activities for Wednesday here */}
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={1.7}>
-            <Paper>
-              <Grid>
-                <Typography variant="h6" gutterBottom>
-                {daysOfWeek[4]}
-                </Typography>
-              </Grid>
-              {/* Place your content or activities for Thursday here */}
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={1.7}>
-            <Paper>
-              <Grid>
-                <Typography variant="h6" gutterBottom>
-                {daysOfWeek[5]}
-                </Typography>
-              </Grid>
-              {/* Place your content or activities for Friday here */}
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={1.7}>
-            <Paper>
-              <Grid>
-                <Typography variant="h6" gutterBottom>
-                {daysOfWeek[6]}
-                </Typography>
-              </Grid>
-              {/* Place your content or activities for Saturday here */}
-            </Paper>
-          </Grid>
+          {daysOfWeek.map((dia, x = 0) => (
+            <Grid item xs={12} sm={1.7} key={dia}>
+              <Paper elevation={12}>
+                <Grid>
+                  <Typography variant="h6" gutterBottom>
+                    {daysOfWeek[x]} - {outrosDiasSemana[x]}
+                  </Typography>
+                </Grid>
+                {/* Place your content or activities for Sunday here */}
+              </Paper>
+            </Grid>
+          ))}
         </Grid>
       </Box>
     </Box>
