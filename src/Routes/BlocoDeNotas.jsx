@@ -4,8 +4,21 @@ import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import "../css/BlocoDeNotas.css";
-
+import * as React from 'react';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 function BlocoDeNotas() {
+  
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setTimeout(setOpen(false), 1000)
+  };
+
   const [grids, setGrids] = useState([1]);
 
   const addGrid = () => {
@@ -46,7 +59,13 @@ function BlocoDeNotas() {
                 alignItems: "center",
               }}
             >
-              <Button variant="contained" color="primary" className="save">
+              <Snackbar open={open}  autoHideDuration={2000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" variant="outlined" sx={{ width: '100%', backgroundColor: 'rgb(203,247,199)'}}>
+                  Anotações salvas com sucesso!
+                </Alert>
+              </Snackbar>
+
+              <Button variant="contained" color="primary" className="save" onClick={handleClick}>
                 <SaveIcon />
               </Button>
               {index === grids.length - 1 && grids.length > 1 ? ( 
