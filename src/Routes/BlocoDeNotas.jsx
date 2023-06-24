@@ -71,7 +71,7 @@ function BlocoDeNotas() {
             value={titulo}
             onChange={handleChangeTitulo}
             placeholder="Digite o título da anotação..." 
-            style={{ width: "100vh", resize: "none", minHeight: "20px" }}/>
+            style={{ width: "50%", resize: "none", minHeight: "20px", fontSize:"20px" }}/>
           </div>
 
   {/* Input: Conteúdo da anotação e botão salvar */}
@@ -86,7 +86,7 @@ function BlocoDeNotas() {
               onChange={handleChangeConteudo}
               placeholder="Digite o conteúdo da anotação..."
               variant="outlined"
-              style={{ width: "140vh", resize: "none", minHeight: "60px" }}/>
+              style={{ width: "85%", resize: "none", minHeight: "60px", fontSize:"17px" }}/>
 
             <Button variant="contained" color="primary" className="save" onClick={adicionarAnotacao}>
               <SaveIcon />
@@ -128,7 +128,8 @@ function BlocoDeNotas() {
               borderWidth:"1px",
               padding: "5px",
               wordBreak:"break-word",
-              Width: "140vh",
+              Width: "100%",
+              minHeight: "60px"
               }}>{anotacao.conteudo}</p>
 
               <Button
