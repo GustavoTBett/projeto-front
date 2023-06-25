@@ -1,3 +1,4 @@
+import "../css/Calender.css";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -6,8 +7,6 @@ import {
   IconButton,
   Grid,
   Paper,
-  ListItem,
-  ListItemText,
   Divider,
   Button,
   Dialog,
@@ -15,6 +14,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  TextField,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -26,6 +26,21 @@ const Tarefas = () => {
   const [outrosDiasSemana, setOutrosDiasSemana] = useState([]);
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
   const [openDialogEdit, setOpenDialogEdit] = useState(false);
+  const [nomeTarefa, setNomeTarefa] = useState("");
+  const [newNomeTarefa, setNewNomeTarefa] = useState("");
+  const [rowIndex, setRowIndex] = useState(0);
+  const [colIndex, setColIndex] = useState(0);
+  const [lista, setLista] = useState([
+    [["teste"]],
+    [],
+    [["Trabalho front-end"]],
+    [],
+    [["Trabalho bd 2"]],
+    [],
+    [],
+  ]);
+  const [openDialogAdd, setOpenDialogAdd] = useState(false);
+  const [selectedDay, setSelectedDay] = useState("");
   const { date } = useParams();
 
   const [day, month] = date.split("-");
@@ -58,14 +73,6 @@ const Tarefas = () => {
 
   const obterNomeDiaSemana = (diaSemana) => {
     return daysOfWeek[diaSemana];
-  };
-
-  const padEsquerda = (valor, tamanho) => {
-    let valorString = valor.toString();
-    while (valorString.length < tamanho) {
-      valorString = "0" + valorString;
-    }
-    return valorString;
   };
 
   const obterOutrosDiasSemana = (data) => {
@@ -111,19 +118,79 @@ const Tarefas = () => {
     window.location.href = `/app/tarefas-pendentes/${newDate}`;
   };
 
-  const handleClickOpenDelete = () => {
+  const handleClickOpenAdd = () => {
+    setOpenDialogAdd(true);
+  };
+
+  const handleCloseAdd = () => {
+    setOpenDialogAdd(false);
+  };
+
+  const handleSaveAdd = () => {
+    // Add the new task to the selected day's row in the lista array
+    const dayIndex = daysOfWeek.indexOf(selectedDay);
+    if (dayIndex !== -1) {
+      setLista((prevLista) => {
+        const updatedLista = [...prevLista];
+        updatedLista[dayIndex].push([newNomeTarefa]);
+        return updatedLista;
+      });
+    }
+
+    // Close the dialog
+    setOpenDialogAdd(false);
+  };
+
+  const handleClickOpenDelete = (nomeTarefa, rowIndex, colIndex) => {
+    setNomeTarefa(nomeTarefa);
     setOpenDialogDelete(true);
+    setRowIndex(rowIndex);
+    setColIndex(colIndex);
+  };
+
+  const handleSaveDelete = () => {
+    if (openDialogDelete) {
+      setOpenDialogDelete(false);
+
+      setLista((prevLista) => {
+        const updatedLista = [...prevLista];
+        const rowArray = updatedLista[rowIndex];
+
+        if (rowArray) {
+          rowArray.splice(colIndex, 1);
+        }
+        return updatedLista;
+      });
+    }
   };
 
   const handleCloseDelete = () => {
     setOpenDialogDelete(false);
   };
 
-  const handleClickOpenDialog = () => {
+  const handleClickOpenDialog = (nomeTarefa, rowIndex, colIndex) => {
+    setNomeTarefa(nomeTarefa);
     setOpenDialogEdit(true);
+    setRowIndex(rowIndex);
+    setColIndex(colIndex);
   };
 
   const handleCloseDialog = () => {
+    setOpenDialogEdit(false);
+  };
+
+  const handleSaveEdit = () => {
+    setLista((prevLista) => {
+      const updatedLista = [...prevLista];
+
+      const rowArray = updatedLista[rowIndex];
+
+      if (rowArray) {
+        rowArray[colIndex] = newNomeTarefa;
+      }
+
+      return updatedLista;
+    });
     setOpenDialogEdit(false);
   };
 
@@ -159,11 +226,12 @@ const Tarefas = () => {
                 paddingTop: "0",
                 marginRight: "20px",
               }}
+              onClick={handleClickOpenAdd}
             >
               Adicionar tarefa
             </Button>
           </Grid>
-          {daysOfWeek.map((dia, x = 0) => (
+          {daysOfWeek.map((dia, rowIndex) => (
             <Grid item xs={12} sm={1.7} key={dia}>
               <Paper
                 elevation={12}
@@ -187,123 +255,52 @@ const Tarefas = () => {
                       borderRadius: "10px",
                     }}
                   >
-                    {daysOfWeek[x]} - {outrosDiasSemana[x]}
+                    {daysOfWeek[rowIndex]} - {outrosDiasSemana[rowIndex]}
                   </Typography>
                   <Divider style={{ marginBottom: "20px" }} />
                 </Grid>
-                <Paper
-                  elevation={12}
-                  style={{ margin: "8px", position: "relative" }}
-                >
-                  <Grid
-                    style={{
-                      overflow: "hidden",
-                      maxWidth: "135px",
-                      maxHeight: "70px",
-                    }}
+                {lista[rowIndex].map((item, colIndex) => (
+                  <Paper
+                    elevation={12}
+                    style={{ margin: "8px", position: "relative" }}
+                    key={colIndex}
                   >
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                  </Grid>
-                  <IconButton
-                    aria-label="edit"
-                    style={{ position: "absolute", top: "-7px", left: "132px" }}
-                    onClick={handleClickOpenDialog}
-                  >
-                    <EditIcon fontSize="small" />
-                  </IconButton>
-                  <IconButton
-                    aria-label="delete"
-                    size="small"
-                    style={{ position: "absolute", top: "20px", left: "135px" }}
-                    onClick={handleClickOpenDelete}
-                  >
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                </Paper>
-                <Paper
-                  elevation={12}
-                  style={{ margin: "8px", position: "relative" }}
-                >
-                  <Grid
-                    style={{
-                      overflow: "hidden",
-                      maxWidth: "135px",
-                      maxHeight: "70px",
-                    }}
-                  >
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                  </Grid>
-                  <IconButton
-                    aria-label="edit"
-                    style={{ position: "absolute", top: "-7px", left: "132px" }}
-                    onClick={handleClickOpenDialog}
-                  >
-                    <EditIcon fontSize="small" />
-                  </IconButton>
-                  <IconButton
-                    aria-label="delete"
-                    size="small"
-                    style={{ position: "absolute", top: "20px", left: "135px" }}
-                    onClick={handleClickOpenDelete}
-                  >
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                </Paper>
-                <Paper
-                  elevation={12}
-                  style={{ margin: "8px", position: "relative" }}
-                >
-                  <Grid
-                    style={{
-                      overflow: "hidden",
-                      maxWidth: "135px",
-                      maxHeight: "70px",
-                    }}
-                  >
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                    Tweedehandsemotorverkoopsmannevakbondstakingsvergaderingsameroeperstoespra-akskrywerspersverklaringuitreikingsmediakonferensieaankondiging
-                  </Grid>
-                  <IconButton
-                    aria-label="edit"
-                    style={{ position: "absolute", top: "-7px", left: "132px" }}
-                    onClick={handleClickOpenDialog}
-                  >
-                    <EditIcon fontSize="small" />
-                  </IconButton>
-                  <IconButton
-                    aria-label="delete"
-                    size="small"
-                    style={{ position: "absolute", top: "20px", left: "135px" }}
-                    onClick={handleClickOpenDelete}
-                  >
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                </Paper>
+                    <Grid
+                      style={{
+                        overflow: "hidden",
+                        maxWidth: "80%",
+                        maxHeight: "100px",
+                        minHeight: "48px",
+                        padding: "7px",
+                      }}
+                    >
+                      {item}
+                    </Grid>
+                    <IconButton
+                      aria-label="edit"
+                      style={{ position: "absolute", top: "-7px", left: "81%" }}
+                      onClick={() =>
+                        handleClickOpenDialog(item, rowIndex, colIndex)
+                      }
+                    >
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                    <IconButton
+                      aria-label="delete"
+                      size="small"
+                      style={{ position: "absolute", top: "20px", left: "82%" }}
+                      onClick={() =>
+                        handleClickOpenDelete(item, rowIndex, colIndex)
+                      }
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </Paper>
+                ))}
               </Paper>
             </Grid>
           ))}
         </Grid>
-
 
         <Dialog
           open={openDialogDelete}
@@ -311,22 +308,19 @@ const Tarefas = () => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">
-            Deletar Tarefa?
-          </DialogTitle>
+          <DialogTitle id="alert-dialog-title">Deletar Tarefa?</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Você tem certeza que deseja deletar a tarefa (nomeTarefa)?
+              Você tem certeza que deseja deletar a tarefa {nomeTarefa}?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDelete}>Cancelar</Button>
-            <Button onClick={handleCloseDelete} autoFocus>
+            <Button onClick={handleSaveDelete} autoFocus>
               Continuar
             </Button>
           </DialogActions>
         </Dialog>
-
 
         <Dialog
           open={openDialogEdit}
@@ -334,18 +328,70 @@ const Tarefas = () => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">
-            Editar Tarefa?
-          </DialogTitle>
+          <DialogTitle id="alert-dialog-title">Editar Tarefa</DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Você tem certeza que deseja deletar a tarefa (nomeTarefa)?
-            </DialogContentText>
+            <TextField
+              autoFocus
+              placeholder={nomeTarefa}
+              id="editarTarefa"
+              margin="dense"
+              label="Editar Tarefa"
+              type="text"
+              fullWidth
+              onChange={(e) => setNewNomeTarefa(e.target.value)}
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog}>Cancelar</Button>
-            <Button onClick={handleCloseDialog} autoFocus>
+            <Button onClick={handleSaveEdit} autoFocus>
               Salvar
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog
+          open={openDialogAdd}
+          onClose={handleCloseAdd}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Adicionar Tarefa</DialogTitle>
+          <DialogContent>
+            <TextField
+              select
+              value={selectedDay}
+              onChange={(e) => setSelectedDay(e.target.value)}
+              fullWidth
+              label="Dia da Semana"
+              margin="normal"
+              SelectProps={{
+                native: true,
+              }}
+            >
+              <option disabled value="">
+              </option>
+              {daysOfWeek.map((day) => (
+                <option key={day} value={day}>
+                  {day}
+                </option>
+              ))}
+            </TextField>
+            <DialogContent>
+            <TextField
+              autoFocus
+              placeholder={nomeTarefa}
+              id="editarTarefa"
+              label="Editar Tarefa"
+              type="text"
+              fullWidth
+              onChange={(e) => setNewNomeTarefa(e.target.value)}
+            />
+          </DialogContent>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseAdd}>Cancelar</Button>
+            <Button onClick={handleSaveAdd} autoFocus>
+              Adicionar
             </Button>
           </DialogActions>
         </Dialog>
