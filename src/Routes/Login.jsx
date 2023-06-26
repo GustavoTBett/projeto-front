@@ -42,8 +42,8 @@ export default function SignIn() {
     "password": "pass1"
   },
   {
-    "username": "user2",
-    "password": "pass2"
+    "username": "thiago.298721@alunosatc.edu.br",
+    "password": "password123"
   }];
   
 

@@ -12,6 +12,11 @@ import {
 } from "@mui/material";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Stack from '@mui/material/Stack';
+import { NavLink, Navigate } from 'react-router-dom';
 
 function Calender() {
   const months = [
@@ -32,19 +37,30 @@ function Calender() {
   const [selectedDay, setSelectedDay] = useState(null);
   const monthIndex = new Date().getMonth();
   const [currentMonthIndex, setCurrentMonthIndex] = useState(monthIndex);
+  const [controllerDay27, setControllerDay27] = useState(false);
+  const [controllerDay29, setControllerDay29] = useState(false);
 
   const handleDayClick = (day) => {
     setSelectedDay(day);
+    if (day === 27) {
+      setControllerDay27(true)
+    }
+    else if (day === 29) {
+      setControllerDay29(true);
+    }
   };
 
   const handleCloseDialog = () => {
     setSelectedDay(null);
+    setControllerDay27(false);
+    setControllerDay29(false);
   };
 
   const handlePrevMonth = () => {
     if (currentMonthIndex === 0) return; // Bloqueia ir para o ano anterior
     setCurrentMonthIndex((prevIndex) => prevIndex - 1);
   };
+
 
   const handleNextMonth = () => {
     if (currentMonthIndex === 11) return; // Bloqueia ir para o ano seguinte
@@ -72,7 +88,8 @@ function Calender() {
     teste = Array.from(Array(35).keys());
   }
   
-
+  const tarefas = ['Trabalho Frontend']
+  const listaTarefas = tarefas.map((homework) => <li>{homework}</li>)
   const daysOfWeek = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
 
   return (
@@ -143,15 +160,30 @@ function Calender() {
             }
           })}
         </Grid>
-
+        
         <Dialog open={selectedDay !== null} onClose={handleCloseDialog}>
           <DialogTitle>
-            {selectedDay !== null ? `Dia ${selectedDay}` : ""}
+            <Stack direction="row" gap={5}>
+              {selectedDay !== null ? `Dia ${selectedDay}` : ""}
+              <Button>
+                Ver Tarefa
+              </Button>
+            </Stack>
           </DialogTitle>
           <DialogContent>
             {/* Conteúdo do dialog */}
             <Typography variant="body1" align="center">
-              Este é o conteúdo do dia {selectedDay}.
+              Este é o conteúdo do dia {selectedDay}. 
+              {controllerDay27 && (
+                <FormGroup>
+                  <FormControlLabel control={<Checkbox defaultChecked/>} label={listaTarefas}/>
+                </FormGroup>
+              )}
+              {controllerDay29 && (
+                <FormGroup>
+                  <FormControlLabel control={<Checkbox required/>} label='Trabalho bd 2'/>
+                </FormGroup>
+              )}
             </Typography>
           </DialogContent>
         </Dialog>

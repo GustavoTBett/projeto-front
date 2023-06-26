@@ -89,7 +89,7 @@ export default function ResetPass() {
             <DialogContent>
               <DialogContentText id='dialog-description'>
                 Confira sua caixa de entrada do e-mail informado, caso não encontre verifique sua caixa de spam 
-                ou entre em contato conosco pelo e-mail teste@teste.com.br
+                ou entre em contato conosco pelo e-mail <b>suporte@organnize.com.br</b>
               </DialogContentText>
             </DialogContent>
             <DialogActions>
