@@ -157,14 +157,14 @@ function Calender() {
                       <Badge
                         color="secondary"
                         badgeContent="1"
-                        style={{ position: "absolute", left: "47%" }}
+                        style={{ position: "relative", left: "40%" }}
                       ></Badge>
                     )}
                     {day === 32 && (
                       <Badge
                         color="secondary"
                         badgeContent="1"
-                        style={{ position: "absolute", left: "60%" }}
+                        style={{ position: "relative", left: "40%" }}
                       ></Badge>
                     )}
                   </Paper>
