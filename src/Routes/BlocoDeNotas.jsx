@@ -1,4 +1,4 @@
-import { Button, Container, Paper, TextareaAutosize } from "@mui/material";
+import { Button, Container, Paper, TextareaAutosize, Grid, Typography } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
@@ -6,7 +6,7 @@ import "../css/BlocoDeNotas.css";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
-function BlocoDeNotas() {
+export default function BlocoDeNotas() {
 
   const [titulo, setTitulo] = useState('');
 
@@ -48,103 +48,119 @@ function BlocoDeNotas() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+    <Container maxWidth="lg" sx={{
+      mt: 4, mb: 4 }}>
 
 {/* Cadastrar anotação */}
-      <Paper
-        style={{
-        paddingTop: "0px",
-        padding: "10px",
+      <Paper sx={{
+        p: "1rem",
         width: "100%"}}>
 
   {/* Título do componente */}
-          <div>
-            <h1 style={{
+          <Grid sx={{
             textAlign: "center",
-            marginTop:"1px"
-            }}>Bloco de Notas</h1>
-          </div>
+            mt: "-1.5rem" }}>
+            <h1>Bloco de Notas</h1>
+          </Grid>
 
   {/* Input: Título da anotação */}
-          <div>
-            <TextareaAutosize
+          <Grid>
+            <TextareaAutosize style={{
+              width: "50%",
+              resize: "none",
+              minHeight: "2rem",
+              fontSize:"1.5rem"}}
             value={titulo}
             onChange={handleChangeTitulo}
-            placeholder="Digite o título da anotação..." 
-            style={{ width: "50%", resize: "none", minHeight: "20px", fontSize:"20px" }}/>
-          </div>
+            placeholder="Digite o título da anotação..." />
+          </Grid>
 
   {/* Input: Conteúdo da anotação e botão salvar */}
-          <div style={{
-          marginTop: "0.2rem",
+          <Grid sx={{
+          mt: "0.2rem",
           display: "flex",
-          justifyContent: "space-between",
-          alignItems:"center"}}>
+          gap: "1rem",
+          alignItems:"center" }}>
 
-            <TextareaAutosize
+            <TextareaAutosize style={{
+              width: "90%",
+              resize: "none",
+              minHeight: "20%",
+              fontSize:"1.2rem" }}
               value={conteudo}
               onChange={handleChangeConteudo}
               placeholder="Digite o conteúdo da anotação..."
-              variant="outlined"
-              style={{ width: "85%", resize: "none", minHeight: "60px", fontSize:"17px" }}/>
+              variant="outlined"/>
 
-            <Button variant="contained" color="primary" className="save" onClick={adicionarAnotacao}>
+            <Button variant="contained" color="primary"   className="save" onClick={adicionarAnotacao}>
               <SaveIcon />
             </Button>
-          </div>
-        </Paper>
+          </Grid>
+      </Paper>
 
 {/* Alerta de anotação salva */}
-      <Snackbar open={alerta}  autoHideDuration={2000} onClose={fecharAlerta}>
-
-        <Alert onClose={fecharAlerta} severity="success" variant="outlined" sx={{ width: '100%', backgroundColor: 'rgb(203,247,199)'}}>Anotação salva com sucesso!
+      <Snackbar open={alerta} autoHideDuration={2000} onClose={fecharAlerta}>
+        <Alert sx={{
+          width: '100%',
+          bgcolor: 'rgb(203,247,199)' }}
+          onClose={fecharAlerta} severity="success" variant="outlined">Anotação salva com sucesso!
         </Alert>
       </Snackbar>
 
 {/* Adicionar anotações */}
-      <ul 
-      style={{
-      listStyle: "none",
-      padding: "0px"}}>
+      <Grid>
+      <ul style={{
+        listStyle: "none",
+        padding: "0%"}}>
 
         {anotacoes.map((anotacao, index) => (
           <li key={index}>
-            <Paper
-              style={{
-              padding: "10px",
+            <Paper sx={{
+              p: "1rem",
               width: "100%",
-              marginBottom:"10px"}}>
-            <h2 style={{
-            textAlign:"center",
-            textDecoration:"underline",
-            padding: "5px",
-            wordBreak:"break-all",
-            margin:"5px"
-            }}>{anotacao.titulo}</h2>
+              mb: "1rem",
+              bgcolor: "#FFFFE0"}}>
 
-            <div style={{display: "flex",
+            <h2>
+              <Typography sx={{
+                m: "-1rem",
+                fontWeight: "bold",
+                fontSize: "1.5rem",
+                textAlign:"center",
+                textDecoration:"underline",
+                wordBreak: "break-all",
+                }}>{anotacao.titulo} 
+              </Typography>
+            </h2>
+
+            <Grid style={{display: "flex",
             flexDirection:"column"}}>
-              <p style={{borderStyle: "solid",
-              borderWidth:"1px",
-              padding: "5px",
-              wordBreak:"break-word",
-              Width: "100%",
-              minHeight: "60px"
-              }}>{anotacao.conteudo}</p>
+              <p>
+                <Typography sx={{
+                  borderStyle: "solid",
+                  borderWidth:"0.1rem",
+                  borderColor: "#DCDCDC",
+                  p: "0.4rem",
+                  wordBreak:"break-word",
+                  fontSize: "0.9rem",
+                  Width: "100%",
+                  minHeight: "4rem"
+                  }}>{anotacao.conteudo}
+                </Typography>
+              </p>
 
               <Button
                 variant="contained"
                 color="primary" onClick={() => excluirAnotacao(index)}>
                 <CloseIcon />
               </Button>
-            </div>
+            </Grid>
             </Paper>
           </li>
         ))}
       </ul>
+      </Grid>
 
     </Container>
   );
 }
-
-export default BlocoDeNotas;
