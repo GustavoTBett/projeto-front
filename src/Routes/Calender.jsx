@@ -9,14 +9,15 @@ import {
   DialogTitle,
   DialogContent,
   Button,
+  Badge,
 } from "@mui/material";
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Stack from '@mui/material/Stack';
-import { NavLink, Navigate } from 'react-router-dom';
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Stack from "@mui/material/Stack";
+import { Link } from "react-router-dom";
 
 function Calender() {
   const months = [
@@ -43,9 +44,8 @@ function Calender() {
   const handleDayClick = (day) => {
     setSelectedDay(day);
     if (day === 27) {
-      setControllerDay27(true)
-    }
-    else if (day === 29) {
+      setControllerDay27(true);
+    } else if (day === 29) {
       setControllerDay29(true);
     }
   };
@@ -61,7 +61,6 @@ function Calender() {
     setCurrentMonthIndex((prevIndex) => prevIndex - 1);
   };
 
-
   const handleNextMonth = () => {
     if (currentMonthIndex === 11) return; // Bloqueia ir para o ano seguinte
     setCurrentMonthIndex((prevIndex) => prevIndex + 1);
@@ -75,7 +74,6 @@ function Calender() {
 
   const daysInMonth = getDaysInMonth(2023, currentMonthIndex);
 
-  const daysOfMonth = Array.from({ length: daysInMonth }, (_, i) => i + 1);
   const firstDayOfMonth = new Date(2023, currentMonthIndex, 1).getDay();
   let teste;
   if (
@@ -87,9 +85,9 @@ function Calender() {
   } else {
     teste = Array.from(Array(35).keys());
   }
-  
-  const tarefas = ['Trabalho Frontend']
-  const listaTarefas = tarefas.map((homework) => <li>{homework}</li>)
+
+  const tarefas = ["Trabalho Frontend"];
+  const listaTarefas = tarefas.map((homework) => <li>{homework}</li>);
   const daysOfWeek = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
 
   return (
@@ -146,10 +144,29 @@ function Calender() {
                     onClick={() =>
                       handleDayClick(currentDay - firstDayOfMonth + 1)
                     }
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignContent: "center",
+                    }}
                   >
                     <Typography variant="h6" align="center">
                       {currentDay - firstDayOfMonth + 1}
                     </Typography>
+                    {day === 30 && (
+                      <Badge
+                        color="secondary"
+                        badgeContent="1"
+                        style={{ position: "absolute", left: "47%" }}
+                      ></Badge>
+                    )}
+                    {day === 32 && (
+                      <Badge
+                        color="secondary"
+                        badgeContent="1"
+                        style={{ position: "absolute", left: "60%" }}
+                      ></Badge>
+                    )}
                   </Paper>
                 </Grid>
               );
@@ -160,31 +177,39 @@ function Calender() {
             }
           })}
         </Grid>
-        
+
         <Dialog open={selectedDay !== null} onClose={handleCloseDialog}>
           <DialogTitle>
             <Stack direction="row" gap={5}>
               {selectedDay !== null ? `Dia ${selectedDay}` : ""}
-              <Button>
-                Ver Tarefa
-              </Button>
+              <Link to={`/app/tarefas-pendentes/${selectedDay}-06`}>
+                <Button variant="contained">Adicionar Tarefa</Button>
+              </Link>
             </Stack>
           </DialogTitle>
           <DialogContent>
             {/* Conteúdo do dialog */}
-            <Typography variant="body1" align="center">
-              Este é o conteúdo do dia {selectedDay}. 
-              {controllerDay27 && (
-                <FormGroup>
-                  <FormControlLabel control={<Checkbox defaultChecked/>} label={listaTarefas}/>
-                </FormGroup>
-              )}
-              {controllerDay29 && (
-                <FormGroup>
-                  <FormControlLabel control={<Checkbox required/>} label='Trabalho bd 2'/>
-                </FormGroup>
-              )}
-            </Typography>
+            {selectedDay === 27 && controllerDay27 && (
+              <FormGroup>
+                <FormControlLabel
+                  control={<Checkbox defaultChecked />}
+                  label={listaTarefas}
+                />
+              </FormGroup>
+            )}
+            {selectedDay === 29 && controllerDay29 && (
+              <FormGroup>
+                <FormControlLabel
+                  control={<Checkbox required />}
+                  label="Trabalho bd 2"
+                />
+              </FormGroup>
+            )}
+            {selectedDay !== 27 && selectedDay !== 29 && (
+              <Typography variant="body1" align="center">
+                Nenhuma tarefa para esse dia
+              </Typography>
+            )}
           </DialogContent>
         </Dialog>
       </Grid>
