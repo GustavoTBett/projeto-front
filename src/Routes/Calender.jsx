@@ -86,8 +86,6 @@ function Calender() {
     teste = Array.from(Array(35).keys());
   }
 
-  const tarefas = ["Trabalho Frontend"];
-  const listaTarefas = tarefas.map((homework) => <li>{homework}</li>);
   const daysOfWeek = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
 
   return (
@@ -193,7 +191,7 @@ function Calender() {
               <FormGroup>
                 <FormControlLabel
                   control={<Checkbox defaultChecked />}
-                  label={listaTarefas}
+                  label="Trabalho front-end"
                 />
               </FormGroup>
             )}
